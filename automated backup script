@@ -1,0 +1,62 @@
+
+ilay@ilay-VirtualBox:~$ ls ~/scripts
+ilay@ilay-VirtualBox:~$ nano ~/scripts/Ilaya_backup.sh
+ilay@ilay-VirtualBox:~$ chmod +x ~/scripts/Ilaya_backup.sh
+ilay@ilay-VirtualBox:~$ mkdir ~/backup
+ilay@ilay-VirtualBox:~$ mkdir ~/documents
+ilay@ilay-VirtualBox:~$ nano ~/scripts/Ilaya_backup.sh
+ilay@ilay-VirtualBox:~$ sudo groupadd backupusers
+[sudo] password for ilay: 
+ilay@ilay-VirtualBox:~$ sudo useradd -m -G backupusers backupuser
+useradd: warning: the home directory /home/backupuser already exists.
+useradd: Not copying any file from skel directory into it.
+ilay@ilay-VirtualBox:~$ sudo rm -r /home/backupuser
+ilay@ilay-VirtualBox:~$ sudo useradd -m -G backupusers backupuser
+useradd: user 'backupuser' already exists
+ilay@ilay-VirtualBox:~$ sudo userdel backupuser
+ilay@ilay-VirtualBox:~$ sudo userdel -r backupuser
+userdel: user 'backupuser' does not exist
+ilay@ilay-VirtualBox:~$ sudo useradd -m -G backupusers backupuser
+ilay@ilay-VirtualBox:~$ sudo passwd backupuser
+New password: 
+Retype new password: 
+passwd: password updated successfully
+ilay@ilay-VirtualBox:~$ sudo usermod -aG backupusers backupuser
+ilay@ilay-VirtualBox:~$ sudo su - backupuser
+$ crontab -e
+
+Select an editor.  To change later, run 'select-editor'.
+  1. /bin/nano        <---- easiest
+  2. /usr/bin/vim.basic
+  3. /usr/bin/vim.tiny
+  4. /bin/ed
+
+Choose 1-4 [1]: 1
+crontab: installing new crontab
+$ exit
+ilay@ilay-VirtualBox:~$ ~/scripts/Ilaya_backup.sh
+tar: Removing leading /' from member names
+Backup completed successfully!
+ilay@ilay-VirtualBox:~$ ls ~/backup
+backup_20241107.tar.gz
+ilay@ilay-VirtualBox:~$ tail -n 20 /var/log/syslog
+2024-11-07T16:27:29.804483+02:00 ilay-VirtualBox gnome-shell[2439]: Gio.DBusError: GDBus.Error:org.freedesktop.DBus.Error.Failed: Set global engine failed: Operation was cancelled#012#012Stack trace:#012  _promisify/proto[asyncFunc]/</<@resource:///org/gnome/gjs/modules/core/overrides/Gio.js:453:45#012  @resource:///org/gnome/shell/ui/init.js:21:20#012  ### Promise created here: ####012  _setEngine@resource:///org/gnome/shell/misc/ibusManager.js:291:30#012  setEngine@resource:///org/gnome/shell/misc/ibusManager.js:314:24#012  activateInputSource@resource:///org/gnome/shell/ui/status/keyboard.js:527:31#012  _callHandlers@resource:///org/gnome/gjs/modules/core/_signals.js:130:42#012  _emit@resource:///org/gnome/gjs/modules/core/_signals.js:119:10#012  activate@resource:///org/gnome/shell/ui/status/keyboard.js:68:14#012  _inputSourcesChanged@resource:///org/gnome/shell/ui/status/keyboard.js:661:33#012  reload@resource:///org/gnome/shell/ui/status/keyboard.js:396:14#012  _ibusSetContentType@resource:///org/gnome/shell/ui/status/keyboard.js:736:14#012  _callHandlers@resource:///org/gnome/gjs/modules/core/_signals.js:130:42#012  _emit@resource:///org/gnome/gjs/modules/core/_signals.js:119:10#012  _setContentType@resource:///org/gnome/shell/misc/ibusManager.js:266:14#012  @resource:///org/gnome/shell/ui/init.js:21:20#012  
+2024-11-07T16:27:49.374783+02:00 ilay-VirtualBox systemd[1]: fprintd.service: Deactivated successfully.
+2024-11-07T16:30:01.601552+02:00 ilay-VirtualBox CRON[4165]: (root) CMD ([ -x /etc/init.d/anacron ] && if [ ! -d /run/systemd/system ]; then /usr/sbin/invoke-rc.d anacron start >/dev/null; fi)
+2024-11-07T16:30:01.622222+02:00 ilay-VirtualBox systemd[1]: Starting sysstat-collect.service - system activity accounting tool...
+2024-11-07T16:30:01.630570+02:00 ilay-VirtualBox systemd[1]: sysstat-collect.service: Deactivated successfully.
+2024-11-07T16:30:01.631144+02:00 ilay-VirtualBox systemd[1]: Finished sysstat-collect.service - system activity accounting tool.
+2024-11-07T16:30:37.643660+02:00 ilay-VirtualBox systemd[1]: anacron.service - Run anacron jobs was skipped because of an unmet condition check (ConditionACPower=true).
+2024-11-07T16:30:45.493054+02:00 ilay-VirtualBox kernel: workqueue: vmstat_shepherd hogged CPU for >10000us 4 times, consider switching to WQ_UNBOUND
+2024-11-07T16:30:54.191736+02:00 ilay-VirtualBox gnome-shell[2439]: libinput error: event2  - AT Translated Set 2 keyboard: client bug: event processing lagging behind by 45ms, your system is too slow
+2024-11-07T16:30:54.382089+02:00 ilay-VirtualBox gnome-shell[2439]: libinput error: event2  - AT Translated Set 2 keyboard: client bug: event processing lagging behind by 40ms, your system is too slow
+2024-11-07T16:35:01.688509+02:00 ilay-VirtualBox CRON[4197]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+2024-11-07T16:40:05.347902+02:00 ilay-VirtualBox systemd[1]: Starting sysstat-collect.service - system activity accounting tool...
+2024-11-07T16:40:05.358853+02:00 ilay-VirtualBox systemd[1]: sysstat-collect.service: Deactivated successfully.
+2024-11-07T16:40:05.358956+02:00 ilay-VirtualBox systemd[1]: Finished sysstat-collect.service - system activity accounting tool.
+2024-11-07T16:42:17.668836+02:00 ilay-VirtualBox crontab[4266]: (backupuser) BEGIN EDIT (backupuser)
+2024-11-07T16:43:17.042160+02:00 ilay-VirtualBox crontab[4266]: (backupuser) REPLACE (backupuser)
+2024-11-07T16:43:17.043459+02:00 ilay-VirtualBox crontab[4266]: (backupuser) END EDIT (backupuser)
+2024-11-07T16:44:01.934105+02:00 ilay-VirtualBox cron[737]: (backupuser) RELOAD (crontabs/backupuser)
+2024-11-07T16:45:01.954573+02:00 ilay-VirtualBox CRON[4315]: (root) CMD (command -v debian-sa1 > /dev/null && debian-sa1 1 1)
+2024-11-07T16:45:06.187439+02:00 ilay-VirtualBox kernel: workqueue: e1000_watchdog [e1000] hogged CPU for >10000us 16 times, consider switching to WQ_UNBOUND
